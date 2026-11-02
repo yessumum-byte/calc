@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Math Toolbox</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <h1>Math Toolbox</h1>
+      <div class="tabs" role="tablist" aria-label="Math tools">
+        <button class="tab active" id="tab-calculator" type="button" role="tab" aria-selected="true" aria-controls="panel-calculator" data-tab="calculator">Calculator</button>
+        <button class="tab" id="tab-fractions" type="button" role="tab" aria-selected="false" aria-controls="panel-fractions" data-tab="fractions" tabindex="-1">Fractions</button>
+        <button class="tab" id="tab-algebra" type="button" role="tab" aria-selected="false" aria-controls="panel-algebra" data-tab="algebra" tabindex="-1">Algebra</button>
+        <button class="tab" id="tab-rule" type="button" role="tab" aria-selected="false" aria-controls="panel-rule" data-tab="rule" tabindex="-1">Rule finder</button>
+        <button class="tab" id="tab-geometry" type="button" role="tab" aria-selected="false" aria-controls="panel-geometry" data-tab="geometry" tabindex="-1">Geometry</button>
+        <button class="tab" id="tab-roots" type="button" role="tab" aria-selected="false" aria-controls="panel-roots" data-tab="roots" tabindex="-1">Square roots</button>
+        <button class="tab" id="tab-style" type="button" role="tab" aria-selected="false" aria-controls="panel-style" data-tab="style" tabindex="-1">Style</button>
+        <button class="tab" id="tab-game" type="button" role="tab" aria-selected="false" aria-controls="panel-game" data-tab="game" tabindex="-1">Game</button>
+      </div>
+
+      <section class="panel" id="panel-calculator" role="tabpanel" aria-labelledby="tab-calculator">
+        <p class="intro">Calculate with +, −, ×, ÷, powers, and parentheses.</p>
+        <form id="calculator-form">
+          <label for="expression">Expression</label>
+          <input id="expression" type="text" value="(2 + 3) * 4" autocomplete="off" spellcheck="false">
+          <button type="submit">Calculate</button>
+        </form>
+        <p class="tool-result" id="calculator-result" aria-live="polite" hidden></p>
+        <p class="error" id="calculator-error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-fractions" role="tabpanel" aria-labelledby="tab-fractions" hidden>
+        <p class="intro">Simplify fractions and do exact fraction arithmetic.</p>
+        <form id="fraction-form">
+          <label for="fraction-left">First number</label>
+          <input id="fraction-left" type="text" value="1/2" autocomplete="off" spellcheck="false">
+          <label for="fraction-operation">Operation</label>
+          <select id="fraction-operation">
+            <option value="add">Add (+)</option>
+            <option value="subtract">Subtract (−)</option>
+            <option value="multiply">Multiply (×)</option>
+            <option value="divide">Divide (÷)</option>
+          </select>
+          <label for="fraction-right">Second number</label>
+          <input id="fraction-right" type="text" value="1/3" autocomplete="off" spellcheck="false">
+          <button type="submit">Calculate fraction</button>
+        </form>
+        <p class="tool-result" id="fraction-result" aria-live="polite" hidden></p>
+        <p class="error" id="fraction-error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-algebra" role="tabpanel" aria-labelledby="tab-algebra" hidden>
+        <p class="intro">Enter a linear equation using fractions, for example <strong>23a/35 = 200</strong>.</p>
+        <form id="algebra-form">
+          <label for="algebra-equation">Equation</label>
+          <input id="algebra-equation" type="text" value="23a/35 = 200" autocomplete="off" spellcheck="false">
+          <button type="submit">Solve equation</button>
+        </form>
+        <p class="tool-result" id="algebra-result" aria-live="polite" hidden></p>
+        <p class="error" id="algebra-error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-rule" role="tabpanel" aria-labelledby="tab-rule" hidden>
+        <p class="intro">Find the lowest-degree polynomial matching your input/output pairs.</p>
+        <form id="solver-form">
+          <label for="inputs">Inputs</label>
+          <textarea id="inputs" rows="2" spellcheck="false">-3, 0, 4, 6</textarea>
+          <label for="outputs">Outputs</label>
+          <textarea id="outputs" rows="2" spellcheck="false">-26, 1, 65, 217</textarea>
+          <button type="submit">Find rule</button>
+        </form>
+        <section id="rule-result" aria-live="polite" hidden>
+          <h2>Rule</h2>
+          <p id="rule" class="rule"></p>
+          <p class="note">This is the lowest-degree polynomial found. Other rules may also fit a finite set of pairs.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Input</th><th>Output</th></tr></thead>
+              <tbody id="pairs"></tbody>
+            </table>
+          </div>
+        </section>
+        <p id="rule-error" class="error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-geometry" role="tabpanel" aria-labelledby="tab-geometry" hidden>
+        <p class="intro">Calculate area and perimeter, or surface area and volume.</p>
+        <form id="geometry-form">
+          <label for="geometry-shape">Shape</label>
+          <select id="geometry-shape">
+            <option value="rectangle">Rectangle</option>
+            <option value="square">Square</option>
+            <option value="circle">Circle</option>
+            <option value="triangle">Triangle</option>
+            <option value="cube">Cube</option>
+            <option value="sphere">Sphere</option>
+          </select>
+
+          <div class="shape-fields" data-shape-fields="rectangle">
+            <label for="rectangle-length">Length</label>
+            <input id="rectangle-length" type="number" min="0" step="any" value="8">
+            <label for="rectangle-width">Width</label>
+            <input id="rectangle-width" type="number" min="0" step="any" value="5">
+          </div>
+          <div class="shape-fields" data-shape-fields="square" hidden>
+            <label for="square-side">Side length</label>
+            <input id="square-side" type="number" min="0" step="any" value="4">
+          </div>
+          <div class="shape-fields" data-shape-fields="circle" hidden>
+            <label for="circle-radius">Radius</label>
+            <input id="circle-radius" type="number" min="0" step="any" value="3">
+          </div>
+          <div class="shape-fields" data-shape-fields="triangle" hidden>
+            <label for="triangle-base">Base</label>
+            <input id="triangle-base" type="number" min="0" step="any" value="5">
+            <label for="triangle-height">Height</label>
+            <input id="triangle-height" type="number" min="0" step="any" value="4">
+            <label for="triangle-side-a">Other side 1 (for perimeter)</label>
+            <input id="triangle-side-a" type="number" min="0" step="any" value="3">
+            <label for="triangle-side-b">Other side 2 (for perimeter)</label>
+            <input id="triangle-side-b" type="number" min="0" step="any" value="4">
+          </div>
+          <div class="shape-fields" data-shape-fields="cube" hidden>
+            <label for="cube-side">Side length</label>
+            <input id="cube-side" type="number" min="0" step="any" value="3">
+          </div>
+          <div class="shape-fields" data-shape-fields="sphere" hidden>
+            <label for="sphere-radius">Radius</label>
+            <input id="sphere-radius" type="number" min="0" step="any" value="3">
+          </div>
+          <button type="submit">Calculate shape</button>
+        </form>
+        <p class="tool-result" id="geometry-result" aria-live="polite" hidden></p>
+        <p class="error" id="geometry-error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-roots" role="tabpanel" aria-labelledby="tab-roots" hidden>
+        <p class="intro">Find the principal (nonnegative) square root. Whole numbers also show simplified radical form.</p>
+        <form id="roots-form">
+          <label for="radicand">Number under the square root</label>
+          <input id="radicand" type="text" value="72" autocomplete="off" spellcheck="false">
+          <button type="submit">Find square root</button>
+        </form>
+        <p class="tool-result" id="roots-result" aria-live="polite" hidden></p>
+        <p class="error" id="roots-error" role="alert" hidden></p>
+      </section>
+
+      <section class="panel" id="panel-style" role="tabpanel" aria-labelledby="tab-style" hidden>
+        <p class="intro">Personalize the toolbox. Your choices are saved in this browser.</p>
+        <form id="style-form">
+          <label for="theme-choice">Color theme</label>
+          <select id="theme-choice">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <label for="accent-choice">Accent color</label>
+          <input id="accent-choice" type="color" value="#315de8">
+          <button type="button" id="reset-style" class="secondary-button">Reset appearance</button>
+        </form>
+      </section>
+
+      <section class="panel" id="panel-game" role="tabpanel" aria-labelledby="tab-game" hidden>
+        <p class="intro">Explore and build in a small 16 × 16 block world.</p>
+        <div class="game-screen">
+          <canvas id="game-canvas" width="256" height="144" aria-label="First-person view of the block world. Click to capture the mouse; press E to open the inventory and use the mouse there; close the inventory to resume." tabindex="0"></canvas>
+          <span id="game-fps" class="game-fps" aria-label="Frames per second">FPS: 0</span>
+          <span class="crosshair" aria-hidden="true">+</span>
+          <section id="game-inventory-panel" class="game-inventory-panel" aria-label="Inventory" hidden>
+            <header class="inventory-header">
+              <h2>Inventory</h2>
+              <button type="button" id="inventory-close" aria-label="Close inventory">×</button>
+            </header>
+            <div class="inventory-layout">
+              <section class="equipment-panel" aria-label="Armor equipment">
+                <h3>Armor</h3>
+                <div class="equipment-content">
+                  <div class="armor-slots">
+                    <button class="armor-slot" type="button" aria-label="Helmet slot, empty" disabled>⌑</button>
+                    <button class="armor-slot" type="button" aria-label="Chestplate slot, empty" disabled>◇</button>
+                    <button class="armor-slot" type="button" aria-label="Leggings slot, empty" disabled>⋈</button>
+                    <button class="armor-slot" type="button" aria-label="Boots slot, empty" disabled>⌞</button>
+                  </div>
+                  <div class="inventory-player" aria-hidden="true">
+                    <span class="player-head"></span>
+                    <span class="player-body"></span>
+                    <span class="player-arm player-arm-left"></span>
+                    <span class="player-arm player-arm-right"></span>
+                    <span class="player-leg player-leg-left"></span>
+                    <span class="player-leg player-leg-right"></span>
+                  </div>
+                </div>
+              </section>
+              <div class="inventory-main">
+                <section class="crafting-panel" aria-label="Crafting grid">
+                  <h3>Crafting</h3>
+                  <div class="crafting-area">
+                    <div class="crafting-grid" aria-label="2 by 2 crafting grid">
+                      <span class="crafting-slot"></span><span class="crafting-slot"></span>
+                      <span class="crafting-slot"></span><span class="crafting-slot"></span>
+                    </div>
+                    <span class="crafting-arrow" aria-hidden="true"></span>
+                    <span class="crafting-slot crafting-result" aria-label="Crafting result"></span>
+                  </div>
+                </section>
+                <section class="storage-panel" aria-label="Block inventory">
+                  <h3>Inventory</h3>
+                  <div id="inventory-grid" class="inventory-grid"></div>
+                </section>
+                <div class="inventory-hotbar-wrap">
+                  <h3>Hotbar</h3>
+                  <div id="inventory-hotbar" class="hotbar-slots" aria-label="Hotbar slots"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="game-status">
+          <span id="game-block">Block: Grass</span>
+          <span id="game-position">Position: 8, 8</span>
+          <span id="game-height">Height: 0</span>
+        </div>
+        <p id="game-message" class="game-message" aria-live="polite"></p>
+        <div class="game-inventory" aria-label="Hotbar">
+          <strong>Hotbar — press 1–9 or click a slot</strong>
+          <div id="game-hotbar" class="hotbar-slots"></div>
+        </div>
+        <div class="game-actions">
+          <button type="button" id="game-mine">Break block (LMB)</button>
+          <button type="button" id="game-place">Place block (RMB)</button>
+        </div>
+        <div class="game-controls" aria-label="Movement controls">
+          <button type="button" data-move="forward" aria-label="Move forward">▲</button>
+          <button type="button" data-move="left" aria-label="Move left">◀</button>
+          <button type="button" data-move="back" aria-label="Move backward">▼</button>
+          <button type="button" data-move="right" aria-label="Move right">▶</button>
+          <button type="button" data-turn="left" aria-label="Turn left">↶</button>
+          <button type="button" data-turn="right" aria-label="Turn right">↷</button>
+          <button type="button" id="game-jump" aria-label="Jump">Jump</button>
+          <button type="button" id="game-release-mouse" aria-label="Release mouse">Release mouse</button>
+        </div>
+        <p class="note">WASD or arrow keys to move; Space or Jump to jump. Click the scene to capture the mouse and look around; press Escape to release it. LMB breaks and RMB places. Press E to open the inventory and move the mouse to choose a block; close the inventory to resume mouse capture. Use 1–9 to select hotbar slots. The world and inventory reset when you close the popup.</p>
+      </section>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
